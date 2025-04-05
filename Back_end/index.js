@@ -14,6 +14,7 @@ import cors from 'cors'
 
 import authRouter from './routes/auth.js'
 import sinistreRouter from "./routes/sinistre.js";
+import userRoutes from "./routes/user.js";
 
 // 🔌 Connecte à la base MongoDB avec Mongoose
 import connectTodatabase from './db/db.js'
@@ -29,6 +30,10 @@ app.use(express.json());
 
 app.use('/api/auth',authRouter)
 app.use("/api/sinistres", sinistreRouter); // Expose route
+app.use("/uploads", express.static("uploads"));// ⚠️ ceci est important pour les fichiers statiques !
+
+app.use("/api/users", userRoutes);
+
 
 // 🔧 Définit le port du serveur (via .env ou 3000 par défaut)
 const PORT = process.env.PORT || 3000;

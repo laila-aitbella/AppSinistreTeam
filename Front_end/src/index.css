@@ -216,11 +216,48 @@ width: fit-content;
 }
 
 .btn-cancel {
-  background-color: #ccc;
+  background-color: #f87171;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  cursor: pointer;
 }
 .historique-item {
-  background: #f1f1f1;
+  background-color: #f6f6f6;
+  border-radius: 12px;
   padding: 1rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.historique-item:hover {
+  transform: translateY(-2px);
+}
+
+.historique-item img {
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.historique-item img:hover {
+  transform: scale(1.05);
+}
+
+.btn-cancel {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
   margin-bottom: 1rem;
-  border-radius: 10px;
+}
+
+.btn-cancel:hover {
+  background-color: #ff4d4d;
 }
