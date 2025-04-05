@@ -11,4 +11,5 @@ const router = express.Router();//	Permet de regrouper des routes dans un fichie
 // Quand un client envoie une requête POST à /api/auth/login, cette fonction est exécutée
 router.post('/login', login);
 
+
 export default router;//Permet d’inclure ce routeur dans index.js 

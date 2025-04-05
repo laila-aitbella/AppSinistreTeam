@@ -5,6 +5,8 @@ import SinistreButton from "../Componnents/SinistreButton";
 import NotificationButton from "../Componnents/NotificationButton";
 import HistoriqueButton from "../Componnents/HistoriqueButton";
 
+import ButtonUpdate from "../Componnents/ButtonUpdate";
+
 const UserDashboard = () => {
   return (
     <div style={{ padding: "2rem" }}>
@@ -22,6 +24,7 @@ const UserDashboard = () => {
         <SinistreButton />
         <NotificationButton />
         <HistoriqueButton />
+        <ButtonUpdate/>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 //  Importe dotenv pour accéder aux variables d’environnement (.env)
 import dotenv from "dotenv";
 dotenv.config(); 
-
+import { apps } from "./routes/update.js";
 //  Importe express pour créer le serveur web
 import express from 'express'
 
@@ -36,3 +36,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
+
+
+
+app.use('/', apps);
