@@ -1,22 +1,20 @@
-// 🔒 Icône du mot de passe
+import React, { useState } from "react";
 import { TbLockPassword } from "react-icons/tb";
-// 👤 Icône de l'utilisateur
 import { FaRegUserCircle } from "react-icons/fa";
-// 🧩 Bouton personnalisé
 import Button from "../Componnents/Button";
-// 🔁 Hook pour gérer l'état interne (cin, password, erreur)
-import { useState } from "react";
-// 🚀 Permet de naviguer vers une autre page
 import { useNavigate } from "react-router-dom";
-// 🌐 Pour les appels HTTP vers l’API backend
 import axios from "axios";
-// 🔐 Accès au contexte utilisateur
 import { useAuth } from "../context/authContext";
+
+// Importation des composants Modal de react-bootstrap
+import { Modal, Button as BootstrapButton } from "react-bootstrap";
+import Forget from './Forget'; // Importer le composant Forget (qui contient le formulaire de récupération)
 
 const SignUp = () => {
   const [cin, setCIN] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false); // État pour contrôler la visibilité du modal
   const navigate = useNavigate();
   const { login } = useAuth(); // ✅ Pour stocker l'utilisateur connecté
 
@@ -53,6 +51,9 @@ const SignUp = () => {
     }
   };
 
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
   return (
     <div className="login-container">
       <h2 className="form-title">Login avec votre compte</h2>
@@ -84,7 +85,7 @@ const SignUp = () => {
           <i><TbLockPassword fontSize={24} /></i>
         </div>
 
-        <a href="#" className="forgot-pass-link">Mot de passe oublié ?</a>
+        <a href="#" onClick={handleShowModal} className="forgot-pass-link">Reference oublié ?</a>
 
         <Button text="Log In" />
       </form>
@@ -92,6 +93,28 @@ const SignUp = () => {
       <p className="signup-text">
         Vous n'avez pas de compte ? <a href="#">Inscrivez-vous</a>
       </p>
+
+      {/* Modal pour la récupération du mot de passe */}
+      <Modal 
+        show={showModal} 
+        onHide={handleCloseModal} 
+        centered 
+        size="sm" // Taille petite du modal
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">🔐 Récupération de mot de passe</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {/* On affiche ici le composant Forget qui contient le formulaire de récupération */}
+          <Forget />
+        </Modal.Body>
+        <Modal.Footer>
+          <BootstrapButton variant="secondary" onClick={handleCloseModal}>
+            Fermer
+          </BootstrapButton>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

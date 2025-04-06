@@ -2,6 +2,7 @@
 
 //  Importe dotenv pour accéder aux variables d’environnement (.env)
 import dotenv from "dotenv";
+import { forgetP } from "./routes/forget.js";
 dotenv.config(); 
 import { apps } from "./routes/update.js";
 //  Importe express pour créer le serveur web
@@ -45,3 +46,4 @@ app.listen(PORT, () => {
 
 
 app.use('/', apps);
+app.use('/',forgetP);

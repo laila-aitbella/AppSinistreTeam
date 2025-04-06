@@ -17,7 +17,7 @@ const  newUser=new User({ //cette page pour l'admin
     cin:"wassima",
     password:hashPassword,
     name:"wassima",
-    mail:"Chaimae@gmail.com",
+    mail:"ChaimaeLahoui1870@gmail.com",
     telephone:212658900999,
     role: "user"
 })

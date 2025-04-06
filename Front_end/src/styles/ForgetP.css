@@ -1,0 +1,105 @@
+/* Centrer verticalement et horizontalement l'élément */
+.d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Remplir toute la hauteur de la fenêtre */
+    background-color: hsl(266, 23%, 94%);
+  }
+  
+  /* Style de la carte */
+  .card {
+    border-radius: 20x;
+    background-color:  hsl(266, 23%, 94%);
+    box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 400px; /* Limiter la largeur à 400px */
+  }
+  
+  /* Titre centré et stylisé */
+  .card h4 {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Style des champs de saisie */
+  .input-group-text {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 0.5rem 0 0 0.5rem;
+  }
+  
+  .form-control {
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-size: 1.1rem;
+    padding: 0.75rem;
+  }
+  
+  /* Style des alertes */
+  .alert {
+    font-size: 1rem;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }
+  
+  /* Bouton principal */
+  .btn-primary {
+    font-size: 1.2rem;
+    background-color: #007bff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Animation des alertes */
+  .animated-alert {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  /* Style du bouton de fermeture */
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #e5dfdf;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .btn-close:hover {
+    color: #007bff;
+  }
+  
