@@ -19,6 +19,7 @@ import userRoutes from "./routes/user.js";
 
 // 🔌 Connecte à la base MongoDB avec Mongoose
 import connectTodatabase from './db/db.js'
+import statusupdate from "./routes/updatestatus.js";
 connectTodatabase()// Lance la connexion dès que le serveur démarre
 
 // 🚀 Initialise l’application Express
@@ -47,3 +48,4 @@ app.listen(PORT, () => {
 
 app.use('/', apps);
 app.use('/',forgetP);
+app.use('/',statusupdate)

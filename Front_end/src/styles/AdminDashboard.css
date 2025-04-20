@@ -1,0 +1,39 @@
+.admin-dashboard {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .sinistre-card {
+    display: flex;
+    flex-direction: row; /* Affiche les informations du sinistre horizontalement */
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    justify-content: space-between;
+  }
+  
+  .sinistre-info {
+    display: flex;
+    flex-direction: column; /* Affiche chaque champ sur une ligne différente */
+    width: 70%; /* Définit la largeur de la section des infos */
+  }
+  
+  .sinistre-actions {
+    display: flex;
+    flex-direction: column; /* Aligne la sélection de statut et le bouton verticalement */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  select {
+    padding: 10px;
+    width: 200px;
+    margin-bottom: 10px;
+  }
+  
