@@ -5,9 +5,23 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>login form</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=how_to_reg" />
+
+    <!-- (Optionnel) Patch pour éviter l'erreur process is not defined -->
+    <script>
+      window.process = {
+        env: {
+          NODE_ENV: 'production'
+        }
+      };
+    </script>
+
+    <!-- Web3.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  </head>
+
   <body>
     <div id="root"></div>
+    <!-- Ton script principal React/Vite -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
