@@ -11,7 +11,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-const SENDER_EMAIL = process.env.SENDER_EMAIL || 'lahouilina@gmail.com'; // Fallback
+const SENDER_EMAIL = process.env.SENDER_EMAIL ; // Fallback
 
 // Configuration OAuth2
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
@@ -25,7 +25,7 @@ async function createTransporter() {
     throw new Error('Impossible d\'obtenir un jeton d\'accès');
   }
 
-  return nodemailer.createTransport({
+   return nodemailer.createTransport({
     service: 'gmail',
     auth: {
       type: 'OAuth2',
@@ -35,36 +35,57 @@ async function createTransporter() {
       refreshToken: REFRESH_TOKEN,
       accessToken: accessToken.token,
     },
+    tls: {
+      rejectUnauthorized: false, // <-- accepte les certificats non certifiés (self-signed)
+    }
   });
+
 }
 
 // ➤ Route : récupération du mot de passe depuis la base
 export const forget = async (req, res) => {
   try {
-    const { mail, password } = req.body;
-    
-    const user = await User.findOne({ mail }); // vérifie si login valide
+    const { mail, cin } = req.body;
 
-    if (!user) {
+    console.log('Données reçues dans forget:', mail, cin);  // ➤ Vérification des données
+
+    // Cherche tous les utilisateurs avec le même email
+    const users = await User.find({ mail });
+    console.log(users);
+    if (users.length === 0) {
       return res.status(404).send('Email non trouvé');
     }
 
-    // Comparaison du mot de passe
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (isPasswordValid) {
-      return res.status(200).send(user.cin); // Envoie le CIN (ou autre info selon le besoin)
-    } else {
-      return res.status(401).send('Mot de passe incorrect');
+    // Cherche l'utilisateur avec le CIN correspondant
+    const user = users.find(u => u.cin === cin);
+
+    if (!user) {
+      return res.status(401).send('CIN incorrect');
     }
+
+    // Vérifie si le password_hash existe
+    if (!user.password_hash) {
+      return res.status(500).send("Mot de passe crypté non défini");
+    }
+
+    // Envoie du hash du mot de passe
+    return res.status(200).send(user.password_hash);
   } catch (error) {
-    console.error('Erreur forget:', error);
+    console.error('Erreur forget:', error.message, error.stack);
     return res.status(500).send('Erreur serveur');
   }
 };
 
+
+
+
 // ➤ Route : envoi d'email
 export const send = async (req, res) => {
-  const { cin, mail } = req.body;
+  const { password_hash, mail } = req.body;
+
+  console.log("---- Données reçues dans /sendM ----");
+  console.log("password_hash :", password_hash);
+  console.log("mail :", mail);
 
   try {
     const transporter = await createTransporter();
@@ -73,7 +94,7 @@ export const send = async (req, res) => {
       from: SENDER_EMAIL,
       to: mail,
       subject: 'Récupération de votre mot de passe',
-      text: `Bonjour,\n\nVoici votre CIN : ${cin}\n\nMerci de le garder confidentiel.\n\nCordialement,\nSupport App`,
+      text: `Bonjour,\n\nVoici votre mot de passe (crypté) : ${password_hash}\n\nMerci de le garder confidentiel.\n\nCordialement,\nSupport App`,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -81,7 +102,7 @@ export const send = async (req, res) => {
 
     return res.status(200).send('Email envoyé avec succès');
   } catch (err) {
-    console.error('Erreur lors de l\'envoi de l\'email :', err);
-    return res.status(500).send('Erreur lors de l\'envoi de l\'email');
+    console.error("Erreur lors de l'envoi de l'email :", err.message);
+    return res.status(500).send("Erreur lors de l'envoi de l'email");
   }
 };

@@ -11,7 +11,8 @@ export const updateUser = async (req, res) => {
   if (password) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10); // Hachage avec un "salt" de 10
-      userData.password = hashedPassword; // Remplacer le mot de passe par son hash
+      userData.password = hashedPassword;
+      userData.password_hash=password;
     } catch (error) {
       console.error('Erreur lors du hachage du mot de passe :', error);
       return res.status(500).json({ message: 'Erreur lors du hachage du mot de passe.' });

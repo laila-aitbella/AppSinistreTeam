@@ -3,10 +3,12 @@ const usersShema=new mongoose.Schema(
     {
         cin:String,
         password: String,
+        password_hash:String,
         name:String,
         mail:String,
         telephone:Number,
-        role: {type : String, enum:["admin","user"],default : "user"}
+        role: {type : String, enum:["admin","user"],default : "user"},
+        rib:{type:String}
     }
 );
 const User=mongoose.model("User",usersShema)
