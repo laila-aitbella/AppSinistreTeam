@@ -7,11 +7,11 @@ function Forget() {
   const url1 = "http://localhost:3000/sendM"; // URL pour l'envoi de l'email
 
   const [mail, setMail] = useState(""); // Email de l'utilisateur
-  const [password, setPassword] = useState(""); // CIN de l'utilisateur
+  const [cin, setCin] = useState(""); // CIN de l'utilisateur
   const [message, setMessage] = useState(""); // Message d'état
   const [status, setStatus] = useState("info"); // Statut de l'alerte (info, success, danger)
   const [showModal, setShowModal] = useState(true); // État pour afficher/masquer le modal
-
+  
   // Effet pour réinitialiser le message après 4 secondes
   useEffect(() => {
     if (message) {
@@ -22,47 +22,43 @@ function Forget() {
 
   // Fonction qui gère l'envoi du formulaire
   const onSubmit = async () => {
-    // Validation des champs
-    if (!mail || !password) {
+    if (!mail || !cin) {
       setMessage("Veuillez remplir tous les champs");
       setStatus("danger");
       return;
     }
-
+  
     try {
-      // Appel pour récupérer le mot de passe avec l'email et le CIN
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mail, password }),
+        body: JSON.stringify({ mail, cin }),
       });
-
+  
       const data = await res.text();
-
-      // Vérification du statut de la réponse
+  
       if (res.status !== 200) {
-        throw new Error(data); // Si la réponse est en erreur, on lève une exception
+        throw new Error(data);
       }
-
-      // Si l'utilisateur est trouvé, on envoie un email avec le mot de passe
+  
       const sendRes = await fetch(url1, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cin: data, mail }),
+        body: JSON.stringify({ password_hash: data, mail }),
       });
-
+  
       const result = await sendRes.text();
-
-      // Affichage du message de succès
+  
       setMessage("Email envoyé avec succès");
       setStatus("success");
       console.log("Réponse email:", result);
     } catch (error) {
-      // Gestion des erreurs
       console.error("Erreur:", error);
-      setMessage("Ce mail n'existe pas ");
+      setMessage("Ce mail ou CIN est incorrect");
       setStatus("danger");
     }
+
+  
   };
 
   // Fonction pour fermer le modal
@@ -112,11 +108,11 @@ function Forget() {
               <FaLock />
             </span>
             <input
-              type="password"
+              type="text"
               className="form-control"
               placeholder="Mot de passe"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={cin}
+              onChange={(e) => setCin(e.target.value)}
             />
           </div>
 

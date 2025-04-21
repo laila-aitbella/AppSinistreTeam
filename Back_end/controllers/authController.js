@@ -7,7 +7,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const login = async (req, res) => {
-    console.log("abdessmad lhma9")
+    console.log("wassima ")
+    
 
     try {
         console.log(req.body)// 🔎 Affiche les données reçues dans la requête POST (cin, password)

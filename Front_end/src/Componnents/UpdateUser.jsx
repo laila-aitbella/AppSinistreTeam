@@ -72,7 +72,7 @@ const UpdateUser = ({ onClose }) => {
         <input
           type="password"
           name="password"
-          value={formData.password}
+          value={formData.password_hash}
           onChange={handleChange}
           required
           placeholder="Mot de passe"
