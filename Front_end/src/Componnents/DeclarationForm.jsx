@@ -3,7 +3,6 @@ import axios from "axios";
 import { useAuth } from "../context/authContext"; // ✅ contexte utilisateur
 import jsPDF from "jspdf"; //pour pdf 
 
-
 const DeclarationForm = ({ onClose }) => {
   const { user } = useAuth(); // 👤 utilisateur connecté
   const [formData, setFormData] = useState({
@@ -11,7 +10,7 @@ const DeclarationForm = ({ onClose }) => {
     prenom: "",
     cin: "",
     telephone: "",
-    marque : "",
+    marque: "",
     dateAccident: "",
     lieu: "",
     matricule: "",
@@ -29,10 +28,7 @@ const DeclarationForm = ({ onClose }) => {
       [name]: files ? files : value,
     }));
   };
-  
 
-  
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -58,35 +54,72 @@ const DeclarationForm = ({ onClose }) => {
 
       setSuccessMessage("✅ Sinistre déclaré avec succès !");
       const sinistreId = res.data._id; // récupère l'ID du sinistre depuis la réponse
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString("fr-FR"); // ex: 22/04/2025
 
-setSuccessMessage("✅ Sinistre déclaré avec succès !");
+      // ✅ Génère le PDF avec le logo, l’ID, la date, les infos + footer
+      const doc = new jsPDF();
 
-// génère le PDF avec l'ID dans le nom
-const doc = new jsPDF();
-doc.setFontSize(14);
-doc.text("Déclaration de Sinistre", 20, 20);
-doc.text(`ID du sinistre : ${sinistreId}`, 20, 30);
-doc.text(`Nom : ${formData.nom}`, 20, 40);
-doc.text(`Prénom : ${formData.prenom}`, 20, 50);
-doc.text(`CIN : ${formData.cin}`, 20, 60);
-doc.text(`Téléphone : ${formData.telephone}`, 20, 70);
-doc.text(`Marque : ${formData.marque}`, 20, 80);
-doc.text(`Date de l'accident : ${formData.dateAccident}`, 20, 90);
-doc.text(`Lieu : ${formData.lieu}`, 20, 100);
-doc.text(`Matricule : ${formData.matricule}`, 20, 110);
-doc.text(`Valeur neuve : ${formData.valeurNeuve}`, 20, 120);
-doc.text(doc.splitTextToSize(`Description : ${formData.description}`, 170), 20, 130);
+      // 🖼️ Ajout du logo (le fichier logo.png doit être placé dans /public)
+      const logo = new Image();
+      logo.src = "/logo.png";
 
-doc.save(`sinistre_${sinistreId}.pdf`);
+      logo.onload = () => {
+        // 🧾 En-tête
+        doc.addImage(logo, "PNG", 15, 10, 30, 30); // logo en haut à gauche
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.text("Déclaration de Sinistre", 60, 25); // titre centré
 
-      setTimeout(() => {
-        setSuccessMessage("");
-        onClose(); // ferme le formulaire
-      }, 1500);
+        // 📄 Infos générales
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text(`ID du sinistre : ${sinistreId}`, 20, 50);
+        doc.text(`Date de génération du PDF : ${formattedDate}`, 20, 58);
+
+        // 📋 Champs du formulaire
+        let y = 70;
+        const lineHeight = 8;
+        const champs = [
+          `Nom : ${formData.nom}`,
+          `Prénom : ${formData.prenom}`,
+          `CIN : ${formData.cin}`,
+          `Téléphone : ${formData.telephone}`,
+          `Marque : ${formData.marque}`,
+          `Date de l'accident : ${formData.dateAccident}`,
+          `Lieu : ${formData.lieu}`,
+          `Matricule : ${formData.matricule}`,
+          `Valeur neuve : ${formData.valeurNeuve}`,
+          `Description :`,
+        ];
+
+        champs.forEach((champ) => {
+          doc.text(champ, 20, y);
+          y += lineHeight;
+        });
+
+        // 📝 Description multiligne
+        const descLines = doc.splitTextToSize(formData.description, 170);
+        doc.text(descLines, 25, y);
+        y += descLines.length * lineHeight;
+
+        // 🧾 Footer
+        doc.setFontSize(10);
+        doc.setTextColor(150);
+        doc.text("laila assurance – 2025 ©", 105, 280, { align: "center" });
+
+        // 💾 Sauvegarde
+        doc.save(`sinistre_${sinistreId}.pdf`);
+      };
     } catch (err) {
       alert("❌ Erreur lors de l'envoi du sinistre");
       console.error(err);
     }
+
+    setTimeout(() => {
+      setSuccessMessage("");
+      onClose(); // ferme le formulaire
+    }, 1500);
   };
 
   return (
@@ -96,22 +129,20 @@ doc.save(`sinistre_${sinistreId}.pdf`);
       {successMessage && <p className="success-message">{successMessage}</p>}
 
       <form onSubmit={handleSubmit} className="form-modern">
-      <label>Nom</label>
-        
-        
-      <input type="text" name="nom" onChange={handleChange} required />
+        <label>Nom</label>
+        <input type="text" name="nom" onChange={handleChange} required />
 
-      <label>Prénom</label>
-      <input type="text" name="prenom" onChange={handleChange} required />
+        <label>Prénom</label>
+        <input type="text" name="prenom" onChange={handleChange} required />
 
-      <label>CIN</label>
-      <input type="text" name="cin" onChange={handleChange} required />
+        <label>CIN</label>
+        <input type="text" name="cin" onChange={handleChange} required />
 
-      <label>Téléphone</label>
-      <input type="tel" name="telephone" onChange={handleChange} required />
+        <label>Téléphone</label>
+        <input type="tel" name="telephone" onChange={handleChange} required />
 
-      <label>Marque du véhicule</label>
-       <input type="text" name="marque" onChange={handleChange} required />
+        <label>Marque du véhicule</label>
+        <input type="text" name="marque" onChange={handleChange} required />
 
         <label>Date de l'accident</label>
         <input type="date" name="dateAccident" onChange={handleChange} required />
@@ -121,8 +152,6 @@ doc.save(`sinistre_${sinistreId}.pdf`);
 
         <label>Matricule</label>
         <input type="text" name="matricule" placeholder="1234-A-56" onChange={handleChange} required />
-
-        
 
         <label>Valeur neuve</label>
         <input type="number" name="valeurNeuve" placeholder="ex: 30000" onChange={handleChange} required />

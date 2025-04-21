@@ -25,7 +25,8 @@ export const createSinistre = async (req, res) => {
     
     await newSinistre.save();
 
-    res.status(201).json({ success: true, message: "Sinistre déclaré avec succès." });
+    res.status(201).json({ success: true, message: "Sinistre déclaré avec succès.", _id: newSinistre._id });//les reponse qui vont vers le front end
+
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
