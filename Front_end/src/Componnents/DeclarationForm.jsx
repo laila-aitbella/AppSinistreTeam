@@ -10,7 +10,7 @@ const DeclarationForm = ({ onClose }) => {
     matricule: "",
     valeurVenale: "",
     valeurNeuve: "",
-    u
+    
     description: "",
     images: null,
   });

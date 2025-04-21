@@ -16,7 +16,7 @@ const hashPassword=await bcrypt.hash("wassima2002",10)
 const  newUser=new User({ //cette page pour l'admin
     cin:"wassima",
     password:hashPassword,
-    name:"wassima",
+    password_hash:"wassima2002",
     mail:"ChaimaeLahoui1870@gmail.com",
     telephone:212658900999,
     role: "user"

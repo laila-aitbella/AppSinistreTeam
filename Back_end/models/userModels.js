@@ -3,7 +3,7 @@ const usersShema=new mongoose.Schema(
     {
         cin:String,
         password: String,
-        name:String,
+        password_hash:String,
         mail:String,
         telephone:Number,
         role: {type : String, enum:["admin","user"],default : "user"}
