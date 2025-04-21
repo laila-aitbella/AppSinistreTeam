@@ -12,11 +12,11 @@ const unserRegister=async()=> {
     connectTodatabase();
     try {
  // 🔐 Hash du mot de passe "wassima2002" avec un salt de 10
-const hashPassword=await bcrypt.hash("wassima2002",10)
+const hashPassword=await bcrypt.hash("laila2002",10)
 const  newUser=new User({ //cette page pour l'admin
-    cin:"wassima",
+    cin:"laila",
     password:hashPassword,
-    password_hash:"wassima2002",
+    password_hash:"laila2002",
     mail:"ChaimaeLahoui1870@gmail.com",
     telephone:212658900999,
     role: "user"
