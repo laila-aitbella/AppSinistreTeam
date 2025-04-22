@@ -28,48 +28,14 @@ const HistoriqueModal = ({ onClose }) => {
         ) : (
           sinistres.map((s, i) => (
             <div key={i} className="historique-item">
-              <div style={{ marginBottom: "0.5rem" }}>
-                <strong>{new Date(s.dateAccident).toLocaleDateString()}</strong> — <span>{s.lieu}</span>
-              </div>
+              <p><strong>Date d'accident :</strong> {new Date(s.dateAccident).toLocaleDateString()}</p>
+              <p><strong>Lieu d'accident :</strong> {s.lieu}</p>
 
-              <div>
-                🚗 <strong>{s.matricule}</strong> |
-                💰 {s.valeurVenale} MAD / 🆕 {s.valeurNeuve} MAD
-              </div>
-
-              <p><em>{s.description}</em></p>
-
-              {/* Images s'il y en a */}
-              {s.images && s.images.length > 0 && (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px" }}>
-                  {s.images.map((img, j) =>
-                    img ? (
-                      <a
-                        key={j}
-                        href={`http://localhost:3000/uploads/${img}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <img
-                          src={`http://localhost:3000/uploads/${img}`}
-                          alt={`sinistre-${j}`}
-                          style={{
-                            maxWidth: "120px",
-                            height: "auto",
-                            borderRadius: "8px",
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                            transition: "transform 0.3s ease",
-                          }}
-                          onMouseOver={e => e.currentTarget.style.transform = "scale(1.1)"}
-                          onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
-                        />
-                      </a>
-                    ) : null
-                  )}
-                </div>
-              )}
+              <p><strong>Matricule :</strong> {s.matricule}</p>
+              <p><strong>Statut de votre sinistre:</strong> {s.status || "En attente"}</p>
             </div>
           ))
+          
         )}
       </div>
     </div>

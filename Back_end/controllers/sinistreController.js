@@ -2,25 +2,31 @@ import Sinistre from "../models/sinistreModel.js";
 
 export const createSinistre = async (req, res) => {
   try {
-    const { dateAccident, lieu, matricule, valeurVenale, valeurNeuve, description } = req.body;
+    const { nom, prenom, cin, telephone, marque, dateAccident, lieu, matricule, valeurNeuve, description } = req.body;
+
     const files = req.files || [];
 
     const imagePaths = files.map(file => file.filename);
 
     const newSinistre = new Sinistre({
+      nom,
+      prenom,
+      cin,
+      telephone,
+      marque,
       dateAccident,
       lieu,
       matricule,
-      valeurVenale,
       valeurNeuve,
       description,
       images: imagePaths,
-      utilisateur: req.body.utilisateur //ajoutes l’utilisateur
+      utilisateur: req.body.utilisateur
     });
-
+    
     await newSinistre.save();
 
-    res.status(201).json({ success: true, message: "Sinistre déclaré avec succès." });
+    res.status(201).json({ success: true, message: "Sinistre déclaré avec succès.", _id: newSinistre._id });//les reponse qui vont vers le front end
+
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

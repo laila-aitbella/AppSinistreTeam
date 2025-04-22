@@ -157,6 +157,9 @@ width: fit-content;
   align-items: center;
   justify-content: center;
   z-index: 9999; /* très au-dessus */
+  overflow-y: auto; /* ✅ active le scroll si le contenu dépasse */
+  padding: 2rem 1rem;
+  scroll-behavior: smooth; /* pour un défilement doux */
 }
 
 
@@ -166,8 +169,10 @@ width: fit-content;
   border-radius: 15px;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;           /* ✅ limite la hauteur visible */
+  overflow-y: auto;           /* ✅ active scroll si besoin */
   font-family: sans-serif;
+  margin-top: 2rem;           /* ✅ espace pour éviter d’être collé au haut */
 }
 
 .form-modern {
