@@ -152,18 +152,18 @@ width: fit-content;
   backdrop-filter: blur(4px);
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* assombrit l’arrière-plan */
+  background-color: rgba(0, 0, 0, 0.4); /* ✅ opacité adoucie */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999; /* très au-dessus */
-  overflow-y: auto; /* ✅ active le scroll si le contenu dépasse */
+  z-index: 9999;
+  overflow-y: auto;
   padding: 2rem 1rem;
-  scroll-behavior: smooth; /* pour un défilement doux */
 }
 
 
 .form-container-modern {
+  position: relative; /* ✅ nécessaire pour bouton "×" */
   background-color: white;
   padding: 2rem;
   border-radius: 15px;

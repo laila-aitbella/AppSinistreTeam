@@ -2,26 +2,23 @@ import Sinistre from "../models/sinistreModel.js";
 
 export const createSinistre = async (req, res) => {
   try {
-    const { nom, prenom, cin, telephone, marque, dateAccident, lieu, matricule, valeurNeuve, description } = req.body;
+    const {
+      nom, prenom, cin, telephone, marque, dateAccident, lieu, matricule, valeurNeuve, description,
+      nomConducteur, prenomConducteur, ageConducteur, permis, vehiculeEndommage, degats
+    } = req.body;
+    
 
     const files = req.files || [];
 
     const imagePaths = files.map(file => file.filename);
 
     const newSinistre = new Sinistre({
-      nom,
-      prenom,
-      cin,
-      telephone,
-      marque,
-      dateAccident,
-      lieu,
-      matricule,
-      valeurNeuve,
-      description,
+      nom, prenom, cin, telephone, marque, dateAccident, lieu, matricule, valeurNeuve, description,
+      nomConducteur, prenomConducteur, ageConducteur, permis, vehiculeEndommage, degats,
       images: imagePaths,
       utilisateur: req.body.utilisateur
     });
+    
     
     await newSinistre.save();
 

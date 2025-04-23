@@ -16,6 +16,8 @@ import cors from 'cors'
 import authRouter from './routes/auth.js'
 import sinistreRouter from "./routes/sinistre.js";
 import userRoutes from "./routes/user.js";
+// 🔗 Import de la route constateur
+import constateurRoutes from "./routes/constateur.js";
 
 // 🔌 Connecte à la base MongoDB avec Mongoose
 import connectTodatabase from './db/db.js'
@@ -35,6 +37,9 @@ app.use("/api/sinistres", sinistreRouter); // Expose route
 app.use("/uploads", express.static("uploads"));// ⚠️ ceci est important pour les fichiers statiques !
 
 app.use("/api/users", userRoutes);
+// 📌 Association de la route avec le préfixe /api/constateur
+// Ex: POST http://localhost:5000/api/constateur/verify
+app.use("/api/constateur", constateurRoutes);
 
 
 // 🔧 Définit le port du serveur (via .env ou 3000 par défaut)
