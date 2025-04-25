@@ -13,7 +13,7 @@ const SinistreButton = () => {
       </button>
 
       {open && (
-        <div className="modal">
+        <div className="custom-modal">
           <DeclarationForm onClose={() => setOpen(false)} />
         </div>
       )}

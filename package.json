@@ -16,6 +16,8 @@
     "express": "^5.1.0",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
-    "mongoose": "^8.13.1"
+    "mongoose": "^8.13.1",
+    "react-tsparticles": "^2.12.2",
+    "tsparticles": "^3.8.1"
   }
 }

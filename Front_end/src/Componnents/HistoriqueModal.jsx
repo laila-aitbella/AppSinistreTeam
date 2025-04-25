@@ -16,7 +16,7 @@ const HistoriqueModal = ({ onClose }) => {
   }, [user]);
 
   return (
-    <div className="modal">
+    <div className="custom-modal">
       <div className="form-container-modern">
         <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           📜 Historique de mes sinistres

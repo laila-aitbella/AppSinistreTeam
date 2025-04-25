@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../Componnents/Navbar";
 import Footer from "../Componnents/Footer";
+// import "../styles/Home.css"; // Assure-toi de l'importer si nécessaire
 
 const Home = () => {
   return (
@@ -12,61 +13,67 @@ const Home = () => {
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-md-10">
-              <h1 className="display-4 fw-bold">
-                Bienvenue sur <span className="text-primary">AssurClaim</span>
+              <h1
+                className="display-4 fw-bold fade-in"
+                style={{
+                  color: "#2C3E50",
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                  letterSpacing: "1px"
+                }}
+              >
+                Bienvenue sur AssurClaim
               </h1>
+
               <p className="lead mt-3 text-muted">
                 Gérez vos sinistres en toute simplicité, sécurité et rapidité.
                 <br />
                 Notre plateforme vous guide pas à pas.
               </p>
-
-              {/* ✅ Image centrale */}
-              <img
-                src="/accueil.png"
-                alt="AssurClaim accueil"
-                className="img-fluid my-4 rounded shadow-sm"
-                style={{ maxHeight: "360px", width: "auto" }}
-              />
             </div>
           </div>
         </div>
+
+        {/* IMAGE PLEINE LARGEUR */}
+        <img
+          src="/acceuil.png"
+          alt="AssurClaim accueil"
+          style={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+            marginTop: "2rem",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
+          }}
+        />
       </section>
 
       {/* SECTION AVANTAGES */}
-      <section className="py-5 bg-white border-top">
+      <section className="py-5 bg-deep-blue border-top">
         <div className="container">
-          <h2 className="text-center mb-5 fw-bold display-6">
-            Pourquoi choisir <span className="text-primary">AssurClaim</span> ?
+          <h2 className="text-center mb-5 fw-bold display-6 text-white">
+            Pourquoi choisir AssurClaim ?
           </h2>
+
           <div className="row text-center">
             <div className="col-md-4 mb-4">
-              <div className="p-4 h-100 border rounded shadow-sm">
-                <i className="bi bi-check-circle text-success mb-3" style={{ fontSize: "3rem" }}></i>
+              <div className="feature-card card-hover card-light-blue">
+                <i className="bi bi-check-circle feature-icon text-success"></i>
                 <h5 className="mt-3 fw-semibold">Déclaration facile</h5>
-                <p className="text-muted">
-                  Soumettez vos sinistres en quelques clics depuis n'importe quel appareil.
-                </p>
+                <p>Soumettez vos sinistres en quelques clics depuis n'importe quel appareil.</p>
               </div>
             </div>
-
             <div className="col-md-4 mb-4">
-              <div className="p-4 h-100 border rounded shadow-sm">
-                <i className="bi bi-shield-lock text-primary mb-3" style={{ fontSize: "3rem" }}></i>
+              <div className="feature-card card-hover card-light-blue">
+                <i className="bi bi-shield-lock feature-icon text-primary"></i>
                 <h5 className="mt-3 fw-semibold">Sécurité garantie</h5>
-                <p className="text-muted">
-                  Toutes vos données sont chiffrées et protégées via la blockchain.
-                </p>
+                <p>Toutes vos données sont chiffrées et protégées via la blockchain.</p>
               </div>
             </div>
-
             <div className="col-md-4 mb-4">
-              <div className="p-4 h-100 border rounded shadow-sm">
-                <i className="bi bi-speedometer text-warning mb-3" style={{ fontSize: "3rem" }}></i>
+              <div className="feature-card card-hover card-light-blue">
+                <i className="bi bi-speedometer feature-icon text-warning"></i>
                 <h5 className="mt-3 fw-semibold">Traitement rapide</h5>
-                <p className="text-muted">
-                  Nos systèmes automatisés réduisent les délais de traitement.
-                </p>
+                <p>Nos systèmes automatisés réduisent les délais de traitement.</p>
               </div>
             </div>
           </div>
@@ -91,33 +98,27 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Étapes écrites */}
+          {/* Étapes */}
           <div className="row text-center">
-            <div className="col-md-4">
-              <div className="p-3">
-                <i className="bi bi-pencil-square fs-1 text-primary"></i>
+            <div className="col-md-4 mb-4">
+              <div className="feature-card card-hover card-dark-style">
+                <i className="bi bi-pencil-square fs-1 text-primary feature-icon"></i>
                 <h5 className="mt-3 fw-semibold">1. Créez votre compte</h5>
-                <p className="text-muted">
-                  Inscrivez-vous en quelques clics pour accéder à votre espace assuré.
-                </p>
+                <p>Inscrivez-vous en quelques clics pour accéder à votre espace assuré.</p>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="p-3">
-                <i className="bi bi-cloud-upload fs-1 text-success"></i>
+            <div className="col-md-4 mb-4">
+              <div className="feature-card card-hover card-dark-style">
+                <i className="bi bi-cloud-upload fs-1 text-success feature-icon"></i>
                 <h5 className="mt-3 fw-semibold">2. Déclarez votre sinistre</h5>
-                <p className="text-muted">
-                  Remplissez le formulaire avec les détails de l'accident et ajoutez les justificatifs.
-                </p>
+                <p>Remplissez le formulaire avec les détails de l'accident et ajoutez les justificatifs.</p>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="p-3">
-                <i className="bi bi-graph-up-arrow fs-1 text-warning"></i>
+            <div className="col-md-4 mb-4">
+              <div className="feature-card card-hover card-dark-style">
+                <i className="bi bi-graph-up-arrow fs-1 text-warning feature-icon"></i>
                 <h5 className="mt-3 fw-semibold">3. Suivez le traitement</h5>
-                <p className="text-muted">
-                  Consultez l’état d’avancement de votre dossier en temps réel.
-                </p>
+                <p>Consultez l’état d’avancement de votre dossier en temps réel.</p>
               </div>
             </div>
           </div>

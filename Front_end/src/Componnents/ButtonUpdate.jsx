@@ -14,7 +14,7 @@ const ButtonUpdate = () => {
       </button>
 
       {open && (
-        <div className="modal">
+        <div className="custom-modal">
           <UpdateUser onClose={() => setOpen(false)} />
         </div>
       )}
