@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
 import AdminDashboard from "./Pages/AdminDashboard";
@@ -8,19 +7,25 @@ import Forget from "./Pages/Forget";
 import Smart from "./Pages/Smart";
 import Transfer from './componentsSmart/Transfer';
 
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignUp />} />
+        <Route path="/" element={<Home />} /> 
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/UserDashboard" element={<UserDashboard />} />
         <Route path="/update-profile" element={<UpdateProfile />} />
-        <Route path="/forget" element = {<Forget/>}/>
-         <Route path="/smart" element={<Smart />} />
-         <Route path="/transfer" element={<Transfer />} />
-
+        <Route path="/forget" element={<Forget />} />
+        <Route path="/smart" element={<Smart />} />
+        <Route path="/transfer" element={<Transfer />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );
