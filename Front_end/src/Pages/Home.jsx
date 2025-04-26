@@ -83,7 +83,12 @@ const Home = () => {
       {/* SECTION COMMENT UTILISER */}
       <section className="py-5 bg-white border-top">
         <div className="container">
-          <h2 className="text-center fw-bold mb-5">Comment utiliser notre application ?</h2>
+        <h2
+  className="text-center fw-bold mb-5"
+  style={{ color: "#2C3E50" }}
+>
+  Comment utiliser notre application ?
+</h2>
 
           {/* Vidéo démonstrative */}
           <div className="row justify-content-center mb-5">

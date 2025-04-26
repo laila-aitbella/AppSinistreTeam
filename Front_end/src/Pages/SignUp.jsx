@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import { TbLockPassword } from "react-icons/tb";
 import { FaRegUserCircle } from "react-icons/fa";
-import Button from "../Componnents/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
 
-// Importation des composants Modal de react-bootstrap
+// Importation du modal react-bootstrap
 import { Modal, Button as BootstrapButton } from "react-bootstrap";
-import Forget from './Forget'; // Importer le composant Forget (qui contient le formulaire de récupération)
+import Forget from './Forget'; // ✅ Formulaire de récupération de mot de passe
 
 const SignUp = () => {
   const [cin, setCIN] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false); // État pour contrôler la visibilité du modal
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ Pour stocker l'utilisateur connecté
+  const { login } = useAuth(); // Pour stocker l'utilisateur connecté
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +27,9 @@ const SignUp = () => {
       });
 
       if (response.data.success) {
-        // ✅ Stocker l'utilisateur dans le contexte
         login(response.data.user);
-
-        // ✅ (Optionnel) Sauvegarder le token
         localStorage.setItem("token", response.data.token);
 
-        // 🔁 Rediriger selon le rôle
         const role = response.data.user.role;
         if (role === "admin") {
           navigate("/AdminDashboard");
@@ -55,7 +50,7 @@ const SignUp = () => {
   const handleShowModal = () => setShowModal(true);
 
   return (
-    <div className="login-container">
+    <div className="login-container fade-in">
       <h2 className="form-title">Login avec votre compte</h2>
 
       {error && <p className="text-red-500">{error}</p>}
@@ -70,7 +65,7 @@ const SignUp = () => {
             className="input-field"
             required
           />
-          <i><FaRegUserCircle fontSize={24} /></i>
+          <i><FaRegUserCircle fontSize={22} color="#5F41E4" /></i> {/* Icône violette */}
         </div>
 
         <div className="input-wrapper">
@@ -82,31 +77,30 @@ const SignUp = () => {
             className="input-field"
             required
           />
-          <i><TbLockPassword fontSize={24} /></i>
+          <i><TbLockPassword fontSize={22} color="#5F41E4" /></i> {/* Icône violette */}
         </div>
 
-        <a href="#" onClick={handleShowModal} className="forgot-pass-link">Reference oublié ?</a>
+        <a href="#" onClick={handleShowModal} className="forgot-pass-link">
+          Référence oubliée ?
+        </a>
 
-        <Button text="Log In" />
+        <button type="submit" className="login-button">
+          Log In
+        </button>
       </form>
 
-      <p className="signup-text">
-        Vous n'avez pas de compte ? <a href="#">Inscrivez-vous</a>
-      </p>
-
-      {/* Modal pour la récupération du mot de passe */}
-      <Modal 
-        show={showModal} 
-        onHide={handleCloseModal} 
-        centered 
-        size="sm" // Taille petite du modal
+      {/* Modal récupération mot de passe */}
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        centered
+        size="sm"
         aria-labelledby="example-modal-sizes-title-sm"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-sm">🔐 Récupération de mot de passe</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* On affiche ici le composant Forget qui contient le formulaire de récupération */}
           <Forget />
         </Modal.Body>
         <Modal.Footer>

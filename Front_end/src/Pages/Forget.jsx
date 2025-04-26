@@ -68,31 +68,23 @@ function Forget() {
 
   return (
     showModal && (
-      <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-        <div className="card shadow-lg p-4">
-          {/* Bouton de fermeture */}
-          <button
-            className="btn-close"
-            onClick={closeModal}
-            aria-label="Close"
-          >
+      <div className="forget-modal">
+        <div className="forget-card">
+          <button className="forget-close-btn" onClick={closeModal}>
             <FaTimes />
           </button>
-          
-          <h4 className="text-center mb-4">🔐 Récupération de compte</h4>
-
-          {/* Affichage des messages d'alerte */}
+  
+          <h4 className="forget-title">🔐 Récupération de compte</h4>
+  
           {message && (
-            <div className={`alert alert-${status} text-center animated-alert`} role="alert">
+            <div className={`alert alert-${status}`} role="alert">
               {message}
             </div>
           )}
-
-          {/* Champ Email */}
+  
+          {/* Email */}
           <div className="mb-3 input-group">
-            <span className="input-group-text">
-              <FaEnvelope />
-            </span>
+            <span className="input-group-text"><FaEnvelope /></span>
             <input
               type="email"
               className="form-control"
@@ -101,12 +93,10 @@ function Forget() {
               onChange={(e) => setMail(e.target.value)}
             />
           </div>
-
-          {/* Champ CIN (référence) */}
+  
+          {/* CIN */}
           <div className="mb-4 input-group">
-            <span className="input-group-text">
-              <FaLock />
-            </span>
+            <span className="input-group-text"><FaLock /></span>
             <input
               type="text"
               className="form-control"
@@ -115,15 +105,15 @@ function Forget() {
               onChange={(e) => setCin(e.target.value)}
             />
           </div>
-
-          {/* Bouton pour envoyer le formulaire */}
-          <button className="btn btn-primary w-100" onClick={onSubmit}>
+  
+          <button className="forget-btn" onClick={onSubmit}>
             Envoyer le code
           </button>
         </div>
       </div>
     )
   );
+  
 }
 
 export default Forget;
