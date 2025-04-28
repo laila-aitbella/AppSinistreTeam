@@ -1,5 +1,3 @@
-// 🔧 Nouveau modèle restructuré du formulaire React avec 5 sections logiques
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
@@ -42,9 +40,7 @@ const DeclarationForm = ({ onClose }) => {
 
   const handleVerifyConstateur = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/constateur/verify", {
-        constateurId
-      });
+      const res = await axios.post("http://localhost:3000/api/constateur/verify", { constateurId });
       if (res.status === 200) {
         alert("✅ Constateur vérifié");
         setIsVerified(true);
@@ -140,80 +136,82 @@ const DeclarationForm = ({ onClose }) => {
   };
 
   return (
-    <div className="form-container-modern">
-      <button
-        onClick={onClose}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "20px",
-          background: "none",
-          border: "none",
-          fontSize: "1.8rem",
-          cursor: "pointer",
-          color: "#999",
-        }}
-      >
-        &times;
-      </button>
+    
+      <div className="form-container-modern" style={{ maxHeight: "90vh", overflowY: "auto" }}>
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "20px",
+            background: "none",
+            border: "none",
+            fontSize: "1.8rem",
+            cursor: "pointer",
+            color: "#999",
+          }}
+        >
+          &times;
+        </button>
 
-      {!isVerified ? (
-        <>
-          <h2>🛡️ Vérification du constateur</h2>
-          <p>Veuillez entrer l'identifiant du constateur pour accéder au formulaire de sinistre.</p>
-          <input
-            type="text"
-            placeholder="ID du constateur"
-            value={constateurId}
-            onChange={(e) => setConstateurId(e.target.value)}
-          />
-          <button onClick={handleVerifyConstateur} className="btn-submit">Vérifier</button>
-        </>
-      ) : (
-        <>
-          <h2>Déclaration de sinistre</h2>
-          {successMessage && <p className="success-message">{successMessage}</p>}
+        {!isVerified ? (
+          <>
+            <h2>🛡️ Vérification du constateur</h2>
+            <p>Veuillez entrer l'identifiant du constateur pour accéder au formulaire de sinistre.</p>
+            <input
+              type="text"
+              placeholder="ID du constateur"
+              value={constateurId}
+              onChange={(e) => setConstateurId(e.target.value)}
+            />
+            <button onClick={handleVerifyConstateur} className="btn-submit">Vérifier</button>
+          </>
+        ) : (
+          <>
+            <h2>Déclaration de sinistre</h2>
+            {successMessage && <p className="success-message">{successMessage}</p>}
 
-          <form onSubmit={handleSubmit} className="form-modern">
-            <h3>👤 Informations sur l’assuré</h3>
-            <input type="text" name="nom" placeholder="Nom" onChange={handleChange} required />
-            <input type="text" name="prenom" placeholder="Prénom" onChange={handleChange} required />
-            <input type="text" name="cin" placeholder="CIN" onChange={handleChange} required />
-            <input type="tel" name="telephone" placeholder="Téléphone" onChange={handleChange} required />
+            <form onSubmit={handleSubmit} className="form-modern">
+              <h3>👤 Informations sur l’assuré</h3>
+              <input type="text" name="nom" placeholder="Nom" onChange={handleChange} required />
+              <input type="text" name="prenom" placeholder="Prénom" onChange={handleChange} required />
+              <input type="text" name="cin" placeholder="CIN" onChange={handleChange} required />
+              <input type="tel" name="telephone" placeholder="Téléphone" onChange={handleChange} required />
 
-            <h3>🚗 Informations sur le véhicule assuré</h3>
-            <input type="text" name="marque" placeholder="Marque du véhicule" onChange={handleChange} required />
-            <input type="text" name="matricule" placeholder="Matricule" onChange={handleChange} required />
-            <input type="number" name="valeurNeuve" placeholder="Valeur neuve (€)" onChange={handleChange} required />
+              <h3>🚗 Informations sur le véhicule assuré</h3>
+              <input type="text" name="marque" placeholder="Marque du véhicule" onChange={handleChange} required />
+              <input type="text" name="matricule" placeholder="Matricule" onChange={handleChange} required />
+              <input type="number" name="valeurNeuve" placeholder="Valeur neuve (€)" onChange={handleChange} required />
 
-            <h3>🧍‍♂️ Informations sur le conducteur (si différent)</h3>
-            <input type="text" name="nomConducteur" placeholder="Nom du conducteur" onChange={handleChange} />
-            <input type="text" name="prenomConducteur" placeholder="Prénom du conducteur" onChange={handleChange} />
-            <input type="number" name="ageConducteur" placeholder="Âge" onChange={handleChange} />
-            <input type="text" name="permis" placeholder="Permis de conduire" onChange={handleChange} />
+              <h3>🧍‍♂️ Informations sur le conducteur (si différent)</h3>
+              <input type="text" name="nomConducteur" placeholder="Nom du conducteur" onChange={handleChange} />
+              <input type="text" name="prenomConducteur" placeholder="Prénom du conducteur" onChange={handleChange} />
+              <input type="number" name="ageConducteur" placeholder="Âge" onChange={handleChange} />
+              <input type="text" name="permis" placeholder="Permis de conduire" onChange={handleChange} />
 
-            <h3>🛠 Dégâts matériels</h3>
-            <select name="vehiculeEndommage" onChange={handleChange} required>
-              <option value="">Véhicule endommagé ?</option>
-              <option value="oui">Oui</option>
-              <option value="non">Non</option>
-            </select>
-            <textarea name="degats" placeholder="Nature des dégâts" onChange={handleChange} />
-            <input type="file" name="images" multiple accept="image/*" onChange={handleChange} />
+              <h3>🛠 Dégâts matériels</h3>
+              <select name="vehiculeEndommage" onChange={handleChange} required>
+                <option value="">Véhicule endommagé ?</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+              </select>
+              <textarea name="degats" placeholder="Nature des dégâts" onChange={handleChange} />
+              <input type="file" name="images" multiple accept="image/*" onChange={handleChange} />
 
-            <h3>⚠️ Circonstances de l’accident</h3>
-            <input type="date" name="dateAccident" onChange={handleChange} required />
-            <input type="text" name="lieu" placeholder="Lieu" onChange={handleChange} required />
-            <textarea name="description" rows="4" placeholder="Décris l'accident ici..." onChange={handleChange} required />
+              <h3>⚠️ Circonstances de l’accident</h3>
+              <input type="date" name="dateAccident" onChange={handleChange} required />
+              <input type="text" name="lieu" placeholder="Lieu" onChange={handleChange} required />
+              <textarea name="description" rows="4" placeholder="Décris l'accident ici..." onChange={handleChange} required />
 
-            <div className="btn-group">
-              <button type="submit" className="btn-submit">Envoyer</button>
-              <button type="button" onClick={onClose} className="btn-cancel">Annuler</button>
-            </div>
-          </form>
-        </>
-      )}
-    </div>
+              <div className="btn-group">
+                <button type="submit" className="btn-submit">Envoyer</button>
+                <button type="button" onClick={onClose} className="btn-cancel">Annuler</button>
+              </div>
+            </form>
+          </>
+        )}
+      </div>
+    
   );
 };
 

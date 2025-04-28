@@ -6,7 +6,7 @@ import Footer from "../Componnents/Footer";
 const Home = () => {
   return (
     <>
-      <Navbar />
+     
 
       {/* SECTION D'ACCUEIL */}
       <section className="py-5 bg-light">

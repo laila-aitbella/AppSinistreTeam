@@ -9,19 +9,38 @@ const HistoriqueModal = ({ onClose }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;
-      const res = await axios.get(`http://localhost:3000/api/sinistres/${user._id}`);
-      setSinistres(res.data.data);
+      try {
+        const res = await axios.get(`http://localhost:3000/api/sinistres/${user._id}`);
+        setSinistres(res.data.data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des sinistres :", error);
+      }
     };
     fetchData();
   }, [user]);
 
   return (
     <div className="custom-modal">
-      <div className="form-container-modern">
-        <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+      <div className="form-container-modern" style={{ maxHeight: "90vh", overflowY: "auto", position: "relative" }}>
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "20px",
+            background: "none",
+            border: "none",
+            fontSize: "1.8rem",
+            cursor: "pointer",
+            color: "#999",
+          }}
+        >
+          &times;
+        </button>
+
+        <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
           📜 Historique de mes sinistres
         </h2>
-        <button onClick={onClose} className="btn-cancel">Fermer</button>
 
         {sinistres.length === 0 ? (
           <p>Vous n’avez encore déclaré aucun sinistre.</p>
@@ -30,12 +49,10 @@ const HistoriqueModal = ({ onClose }) => {
             <div key={i} className="historique-item">
               <p><strong>Date d'accident :</strong> {new Date(s.dateAccident).toLocaleDateString()}</p>
               <p><strong>Lieu d'accident :</strong> {s.lieu}</p>
-
               <p><strong>Matricule :</strong> {s.matricule}</p>
-              <p><strong>Statut de votre sinistre:</strong> {s.status || "En attente"}</p>
+              <p><strong>Statut :</strong> {s.status || "En attente"}</p>
             </div>
           ))
-          
         )}
       </div>
     </div>

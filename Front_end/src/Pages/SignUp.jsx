@@ -15,7 +15,7 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Pour stocker l'utilisateur connecté
+  const { login } = useAuth(); // ✅ Utilise ton AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,9 +27,12 @@ const SignUp = () => {
       });
 
       if (response.data.success) {
-        login(response.data.user);
+        // 🔥 Stocke l'utilisateur et le token proprement
+        login(response.data.user); 
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", response.data.token);
 
+        // 🎯 Redirige selon le rôle
         const role = response.data.user.role;
         if (role === "admin") {
           navigate("/AdminDashboard");
@@ -51,7 +54,7 @@ const SignUp = () => {
 
   return (
     <div className="login-container fade-in">
-      <h2 className="form-title">Login avec votre compte</h2>
+      <h2 className="form-title">Connexion à votre compte</h2>
 
       {error && <p className="text-red-500">{error}</p>}
 
@@ -65,7 +68,7 @@ const SignUp = () => {
             className="input-field"
             required
           />
-          <i><FaRegUserCircle fontSize={22} color="#5F41E4" /></i> {/* Icône violette */}
+          <i><FaRegUserCircle fontSize={22} color="#5F41E4" /></i> {/* Icône utilisateur */}
         </div>
 
         <div className="input-wrapper">
@@ -77,15 +80,15 @@ const SignUp = () => {
             className="input-field"
             required
           />
-          <i><TbLockPassword fontSize={22} color="#5F41E4" /></i> {/* Icône violette */}
+          <i><TbLockPassword fontSize={22} color="#5F41E4" /></i> {/* Icône mot de passe */}
         </div>
 
         <a href="#" onClick={handleShowModal} className="forgot-pass-link">
-          Référence oubliée ?
+          Mot de passe oublié ?
         </a>
 
         <button type="submit" className="login-button">
-          Log In
+          Se connecter
         </button>
       </form>
 
