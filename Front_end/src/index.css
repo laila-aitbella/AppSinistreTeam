@@ -8,11 +8,10 @@
 }
 
 body {
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   background-color: #4C637A;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 100vh;
 }
 
 /* 🚀 Container Login */
@@ -147,13 +146,10 @@ body {
   }
 }
 
-
 #root {
   width: 100%;
-  padding: 0 0.6rem;
-
+  min-height: 100vh;
 }
-
 
 
   
@@ -261,47 +257,63 @@ body {
 
 
 
+/* Boutons à l'intérieur */
 .dashboard-btn {
-  padding: 12px 24px;
+  width: 80%; /* ✅ même largeur pour tous */
+  margin-top: auto; /* ✅ pousse en bas de la carte */
+  padding: 12px 20px;
   font-size: 1rem;
-  background-color: #1e90ff;
-  border: none;
-  color: white;
+  background: rgba(143, 161, 178, 0.3); /* 🎨 clair à l'intérieur */
+  color: #2c3e50; /* 🎨 texte bleu foncé */
+  border: 2px solid #2c3e50; /* 🎨 contour bien visible */
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(40, 60, 80, 0.2); /* ✨ halo léger */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .dashboard-btn:hover {
-  background-color: #005bbb;
+  background: rgba(40, 60, 80, 0.8); /* 🎯 plus foncé au hover */
+  color: white;
+  box-shadow: 0 8px 20px rgba(40, 60, 80, 0.5); /* ✨ halo plus fort */
+  transform: translateY(-2px); /* ✨ petit effet de montée */
 }
-
+/* ✅ 1. Ton modal toujours tout devant */
 .custom-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  inset: 0; /* 🔥 plus court que top/left/right/bottom = 0 */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 9999;
+  align-items: center;
+  z-index: 10000; /* 🔥 très grand pour être sûr */
+  padding: 1rem; /* 🔥 pour éviter que le modal colle au bord */
+  overflow-y: auto; /* 🔥 autorise le scroll SI nécessaire */
 }
 
 
+.body.modal-open {
+  overflow: hidden;
+}
+
+
+
+
+/* ✅ Le scroll doit être sur le formulaire seulement */
 .form-container-modern {
-  position: relative; /* ✅ nécessaire pour bouton "×" */
-  background-color: white;
+  background: #fff;
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 10px;
   width: 100%;
-  max-width: 500px;
-  max-height: 90vh;           /* ✅ limite la hauteur visible */
-  overflow-y: auto;           /* ✅ active scroll si besoin */
-  font-family: sans-serif;
-  margin-top: 2rem;           /* ✅ espace pour éviter d’être collé au haut */
+  max-width: 700px; /* 🔥 agrandi à 700px au lieu de 500px */
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  font-family: "Montserrat", sans-serif;
 }
+
+
+
 
 .form-modern {
   display: flex;
@@ -535,6 +547,67 @@ body {
 }
 
 
+.dashboard-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+.dashboard-card {
+  position: relative;
+  z-index: 1;
+
+  background: rgba(143, 161, 178, 0.7); /* 🎨 couleur #8fa1b2 mais avec transparence */
+  border: 1px solid rgba(40, 60, 80, 0.5); /* 🎨 bordure bleu foncé lumineux */
+  backdrop-filter: blur(10px); /* 🎨 joli flou derrière */
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(40, 60, 80, 0.4); /* 🎨 halo autour de la carte */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-8px);
+  background: rgba(143, 161, 178, 0.85); /* 🎨 au hover : un peu moins transparent */
+  box-shadow: 0 12px 24px rgba(40, 60, 80, 0.6); /* 🎨 lumière plus forte au hover */
+}
+
+.card-content {
+  flex-grow: 1; /* ✅ prend toute la hauteur disponible */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* ✅ centre icône, titre, texte */
+  padding-bottom: 1rem; /* ✅ un peu d'espace au-dessus du bouton */
+}
+
+
+.dashboard-icon {
+  font-size: 3rem;
+  color: #4C637A;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover .dashboard-icon {
+  transform: scale(1.2);
+}
+
+.dashboard-card h5 {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #2C3E50;
+}
+
+.dashboard-card p {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
 
 
 @keyframes gradientMove {

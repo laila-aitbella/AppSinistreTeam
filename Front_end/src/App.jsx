@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./Componnents/Navbar"; // ✅ Import Navbar
 import SignUp from "./Pages/SignUp";
 import AdminDashboard from "./Pages/AdminDashboard";
 import UserDashboard from "./Pages/UserDashboard";
@@ -6,15 +7,15 @@ import UpdateProfile from "./Pages/UpdateProfile";
 import Forget from "./Pages/Forget";
 import Smart from "./Pages/Smart";
 import Transfer from './componentsSmart/Transfer';
-
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 
-
 const App = () => {
   return (
     <Router>
+      <Navbar /> {/* 🔥 Navbar visible partout */}
+      <div style={{ paddingTop: "70px" }}></div>
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/signup" element={<SignUp />} />
