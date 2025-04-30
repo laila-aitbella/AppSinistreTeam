@@ -609,6 +609,232 @@ body {
   margin-bottom: 1rem;
 }
 
+.about-wrapper {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Montserrat', sans-serif;
+  color: #2c3e50;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.about-section {
+  margin-bottom: 3rem;
+}
+
+.about-section h2 {
+  font-size: 1.8rem;
+  color: #34495e;
+  margin-bottom: 1rem;
+}
+
+.about-section p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+/* 🚀 Carrousel de fonctionnalités */
+.carousel-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.carousel-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.carousel-card {
+  min-width: 250px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  background: #f5f7fa;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.carousel-card:hover {
+  transform: scale(1.03);
+}
+
+/* 👥 Équipe */
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.team-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s;
+}
+
+.team-card:hover {
+  transform: scale(1.05);
+}
+
+.team-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.team-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.team-card p {
+  font-size: 0.95rem;
+  color: #666;
+}
+/* Espace au-dessus du carrousel pour le halo */
+.carrousel-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Style des cartes du carrousel */
+.carousel-card {
+  /* plus foncé que blanc */
+  height: 220px; /* ⬆️ Augmente pour ne plus couper */
+  height: 180px;
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+  border: 1.5px solid #b3b9c9; /* bordure visible */
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(95, 65, 228, 0.1); /* halo léger permanent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.05rem;
+  text-align: center;
+  flex-direction: column;       /* 👈 pour empiler icône + texte */
+  
+  padding: 2rem 1.2rem; /* ⬆️ Plus de padding vertical */
+  transition: all 0.4s ease-in-out;
+}
+.carousel-card p {
+  margin-top: 1rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #2c3e50;
+  line-height: 1.5;
+  font-family: 'Montserrat', sans-serif;
+}
+.carousel-card svg {
+  font-size: 2rem;
+  color: #6b87a3;
+  transition: transform 0.3s ease-in-out;
+}
+/* 👇 Animation au survol de la carte */
+.carousel-card:hover svg {
+  animation: bounce 0.6s ease-in-out;
+}
+
+/* Halo lumineux dynamique au survol */
+.carousel-card:hover {
+  transform: scale(1.05);
+  border-color: #2c3e50;
+  box-shadow: 0 0 25px rgba(95, 65, 228, 0.25);
+}
+
+/* Centre les cartes dans Swiper */
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  height: 260px; /* doit être supérieur à .carousel-card */
+}
+
+
+.swiper {
+  padding: 1rem 0;
+  overflow: visible;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+
+.welcome-banner {
+  text-align: center;
+  margin: 3rem 0 2.5rem;
+  animation: fadeInSlide 0.8s ease-out both;
+}
+
+.welcome-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.username {
+  color: #5F41E4;
+  font-weight: 800;
+  background: linear-gradient(90deg, #5F41E4, #7B57FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-subtext {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.8rem;
+  font-weight: 400;
+}
+
+
+/* animation fluide */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @keyframes gradientMove {
   0% {
@@ -622,4 +848,26 @@ body {
   }
 }
 
+/* Animation pulse */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Animation bounce */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
 
