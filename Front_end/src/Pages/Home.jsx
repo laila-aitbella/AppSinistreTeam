@@ -33,18 +33,29 @@ const Home = () => {
           </div>
         </div>
 
-        {/* IMAGE PLEINE LARGEUR */}
-        <img
-          src="/acceuil.png"
-          alt="AssurClaim accueil"
-          style={{
-            width: "100%",
-            height: "auto",
-            display: "block",
-            marginTop: "2rem",
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
-          }}
-        />
+        <section className="py-0" style={{ margin: 0, padding: 0 }}>
+        <section className="py-0" style={{ margin: 0, padding: 0 }}>
+  <video
+    src="/Tech Insights.mp4"
+    autoPlay
+    muted
+    loop
+    style={{
+      width: "100vw",          // Toute la largeur de l’écran
+      maxHeight: "500px",      // Limite la hauteur pour éviter qu’elle déborde
+      objectFit: "cover",      // Remplit sans déformation
+      display: "block",
+      margin: 0,
+      padding: 0,
+      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
+    }}
+  ></video>
+</section>
+
+</section>
+
+
+
       </section>
 
       {/* SECTION AVANTAGES */}
