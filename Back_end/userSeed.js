@@ -1,32 +1,41 @@
-// 📦 Importe le modèle utilisateur (Mongoose)
 import User from './models/userModels.js';
-
-// 🔐 Pour hasher le mot de passe
 import bcrypt from 'bcrypt';
+import connectToDatabase from './db/db.js';
 
-// 🔌 Connexion à la base MongoDB Atlas
-import connectTodatabase from './db/db.js'
-
-// 🔄 Fonction pour créer un utilisateur manuellement 
-const unserRegister = async () => {
-    connectTodatabase();
+const seedUsers = async () => {
+    await connectToDatabase();
     try {
-        // 🔐 Hash du mot de passe "laila2002" avec un salt de 10
-        const hashPassword = await bcrypt.hash("laila2002", 10);
-        const newUser = new User({ // cette page pour l'admin
-            cin: "laila",
-            password: hashPassword,
-            password_hash: "laila2002",
-            name: "chaimae",
-            mail: "ChaimaeLahoui1870@gmail.com",
-            telephone: 212658900999,
-            role: "user"
-        });
-        // 💾 Enregistrement de l'utilisateur dans la base de données
-        await newUser.save();
-    } catch (error) {
-        console.log(error);
-    }
-}
+        const hashUser = await bcrypt.hash("laila2002", 10);
+        const hashAdmin = await bcrypt.hash("admin", 10);
 
-unserRegister();
+        const users = [
+            {
+                cin: "laila",
+                password: hashUser,
+                name: "chaimae",
+                mail: "ChaimaeLahoui1870@gmail.com",
+                telephone: 212658900999,
+                role: "user",
+                gender: "female",
+                birthdate: new Date('2002-05-04')
+            },
+            {
+                cin: "admin",
+                password: hashAdmin,
+                name: "Admin User",
+                mail: "admin@example.com",
+                telephone: 212600000001,
+                role: "admin",
+                gender: "male",
+                birthdate: new Date('1980-01-01')
+            }
+        ];
+
+        await User.insertMany(users);
+        console.log('✅ Utilisateurs enregistrés avec succès.');
+    } catch (error) {
+        console.log('❌ Erreur :', error);
+    }
+};
+
+seedUsers();

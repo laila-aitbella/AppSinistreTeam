@@ -11,6 +11,8 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 
+
+
 const App = () => {
   return (
     <Router>
@@ -21,6 +23,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/UserDashboard" element={<UserDashboard />} />
+      
         <Route path="/update-profile" element={<UpdateProfile />} />
         <Route path="/forget" element={<Forget />} />
         <Route path="/smart" element={<Smart />} />
