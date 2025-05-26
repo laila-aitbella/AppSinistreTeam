@@ -17,7 +17,7 @@ const Home = () => {
                 className="display-4 fw-bold fade-in"
                 style={{
                   color: "#2C3E50",
-                  textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                  textShadow: "1px 1px 2px rgba(213, 31, 31, 0.1)",
                   letterSpacing: "1px"
                 }}
               >
@@ -35,21 +35,7 @@ const Home = () => {
 
         <section className="py-0" style={{ margin: 0, padding: 0 }}>
         <section className="py-0" style={{ margin: 0, padding: 0 }}>
-  <video
-    src="/Tech Insights.mp4"
-    autoPlay
-    muted
-    loop
-    style={{
-      width: "100vw",          // Toute la largeur de l’écran
-      maxHeight: "500px",      // Limite la hauteur pour éviter qu’elle déborde
-      objectFit: "cover",      // Remplit sans déformation
-      display: "block",
-      margin: 0,
-      padding: 0,
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
-    }}
-  ></video>
+ 
 </section>
 
 </section>
@@ -94,25 +80,11 @@ const Home = () => {
       {/* SECTION COMMENT UTILISER */}
       <section className="py-5 bg-white border-top">
         <div className="container">
-        <h2
-  className="text-center fw-bold mb-5"
-  style={{ color: "#2C3E50" }}
->
-  Comment utiliser notre application ?
-</h2>
+     
 
-          {/* Vidéo démonstrative */}
-          <div className="row justify-content-center mb-5">
-            <div className="col-md-10">
-              <div className="ratio ratio-16x9 shadow-sm rounded">
-                <iframe
-                  src="https://www.youtube.com/embed/votre_video_id"
-                  title="Démonstration AssurClaim"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          </div>
+
+
+    
 
           {/* Étapes */}
           <div className="row text-center">

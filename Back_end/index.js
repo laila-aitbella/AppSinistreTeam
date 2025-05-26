@@ -14,6 +14,7 @@ import sinistreRouter from "./routes/sinistre.js";
 import userRoutes from "./routes/user.js";
 import constateurRoutes from "./routes/constateur.js";
 import statusupdate from "./routes/updatestatus.js";
+import notificationRoutes from "./routes/notificationsRoute.js";
 
 import User from './models/userModels.js';
 import Sinistre from './models/sinistreModel.js';
@@ -38,6 +39,7 @@ app.use('/api/sinistres', sinistreRouter);
 app.use('/uploads', express.static('uploads'));
 app.use('/api/users', userRoutes);
 app.use('/api/constateur', constateurRoutes);
+app.use("/notifications", notificationRoutes);
 
 
 
@@ -46,6 +48,7 @@ app.use('/', apps);
 app.use('/', forgetP);
 app.use('/', statusupdate);
 
+//app.use('/notifications', notificationRoutes); // ✅ AJOUTE CETTE LIGNE
 
 // 🚀 Démarre le serveur
 const PORT = process.env.PORT || 3000;

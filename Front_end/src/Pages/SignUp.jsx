@@ -4,10 +4,8 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
-
-// Importation du modal react-bootstrap
 import { Modal, Button as BootstrapButton } from "react-bootstrap";
-import Forget from './Forget'; // ✅ Formulaire de récupération de mot de passe
+import Forget from "./Forget";
 
 const SignUp = () => {
   const [cin, setCIN] = useState("");
@@ -15,99 +13,77 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ Utilise ton AuthContext
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
-        cin,
-        password,
-      });
-
+      const response = await axios.post("http://localhost:3000/api/auth/login", { cin, password });
       if (response.data.success) {
-        // 🔥 Stocke l'utilisateur et le token proprement
-        login(response.data.user); 
+        login(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", response.data.token);
-
-        // 🎯 Redirige selon le rôle
         const role = response.data.user.role;
-        if (role === "admin") {
-          navigate("/AdminDashboard");
-        } else {
-          navigate("/UserDashboard");
-        }
+        navigate(role === "admin" ? "/AdminDashboard" : "/UserDashboard");
       }
     } catch (error) {
-      if (error.response && error.response.data && !error.response.data.success) {
-        setError(error.response.data.error);
-      } else {
-        setError("Erreur serveur");
-      }
+      setError(error.response?.data?.error || "Erreur serveur");
     }
   };
 
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
-
   return (
-    <div className="login-container fade-in">
-      <h2 className="form-title">Connexion à votre compte</h2>
+    <div style={containerStyle}>
+      <div style={cardStyle}>
+        <h2 style={titleStyle}>Connexion à votre compte</h2>
 
-      {error && <p className="text-red-500">{error}</p>}
+        {error && <p style={errorStyle}>{error}</p>}
 
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="input-wrapper">
-          <input
-            type="text"
-            placeholder="Numéro d'Identité Nationale"
-            value={cin}
-            onChange={(e) => setCIN(e.target.value)}
-            className="input-field"
-            required
-          />
-          <i><FaRegUserCircle fontSize={22} color="#5F41E4" /></i> {/* Icône utilisateur */}
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div style={inputGroupStyle}>
+            <FaRegUserCircle size={20} style={iconStyle} />
+            <input
+              type="text"
+              placeholder="Numéro d'identité"
+              value={cin}
+              onChange={(e) => setCIN(e.target.value)}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-        <div className="input-wrapper">
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input-field"
-            required
-          />
-          <i><TbLockPassword fontSize={22} color="#5F41E4" /></i> {/* Icône mot de passe */}
-        </div>
+          <div style={inputGroupStyle}>
+            <TbLockPassword size={20} style={iconStyle} />
+            <input
+              type="password"
+              placeholder="Mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-        <a href="#" onClick={handleShowModal} className="forgot-pass-link">
-          Mot de passe oublié ?
-        </a>
+          <div style={{ textAlign: "right", marginBottom: "10px" }}>
+            <a href="#" onClick={() => setShowModal(true)} style={forgotLinkStyle}>
+              Mot de passe oublié ?
+            </a>
+          </div>
 
-        <button type="submit" className="login-button">
-          Se connecter
-        </button>
-      </form>
+          <button type="submit" style={submitButtonStyle}>
+            Se connecter
+          </button>
+        </form>
+      </div>
 
-      {/* Modal récupération mot de passe */}
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        centered
-        size="sm"
-        aria-labelledby="example-modal-sizes-title-sm"
-      >
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered size="sm">
         <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-sm">🔐 Récupération de mot de passe</Modal.Title>
+          <Modal.Title>🔐 Récupération de mot de passe</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Forget />
         </Modal.Body>
         <Modal.Footer>
-          <BootstrapButton variant="secondary" onClick={handleCloseModal}>
+          <BootstrapButton variant="secondary" onClick={() => setShowModal(false)}>
             Fermer
           </BootstrapButton>
         </Modal.Footer>
@@ -117,3 +93,71 @@ const SignUp = () => {
 };
 
 export default SignUp;
+const containerStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  background: "#f4f4f8",
+};
+
+const cardStyle = {
+  background: "#fff",
+  padding: "40px",
+  borderRadius: "12px",
+  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
+  width: "100%",
+  maxWidth: "400px",
+};
+
+const titleStyle = {
+  marginBottom: "24px",
+  fontSize: "22px",
+  textAlign: "center",
+  color: "#333",
+};
+
+const inputGroupStyle = {
+  position: "relative",
+  marginBottom: "20px",
+};
+
+const iconStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "12px",
+  transform: "translateY(-50%)",
+  color: "#5F41E4",
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "10px 12px 10px 38px",
+  borderRadius: "8px",
+  border: "1px solid #ccc",
+  fontSize: "14px",
+};
+
+const forgotLinkStyle = {
+  fontSize: "13px",
+  color: "#5F41E4",
+  textDecoration: "none",
+};
+
+const submitButtonStyle = {
+  width: "100%",
+  padding: "12px",
+  backgroundColor: "#5F41E4",
+  color: "#fff",
+  fontWeight: "bold",
+  border: "none",
+  borderRadius: "8px",
+  fontSize: "16px",
+  cursor: "pointer",
+};
+
+const errorStyle = {
+  color: "#dc3545",
+  textAlign: "center",
+  marginBottom: "15px",
+};

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Web3 from "web3";
-import getContract from "../componentsSmart/contrat";
+import getContract from "../componentsSmart/contrat"; // Assure-toi du chemin correct
 
 function Smart() {
   const location = useLocation();
-  const montant = location.state?.montant; // montant en ETH (string ou number)
+  const montant = location.state?.montant; // Montant en ETH (string ou number)
   const [expediteur, setExpediteur] = useState(null);
   const [destinataire, setDestinataire] = useState(null);
-  const [showModal, setShowModal] = useState(false); // état pour afficher ou masquer le modal
+  const [showModal, setShowModal] = useState(false);
 
-  // Récupère les comptes MetaMask et stocke expediteur/destinataire
   useEffect(() => {
     const loadAccounts = async () => {
       if (!window.ethereum) {
-        console.error("MetaMask non détecté");
+        alert("MetaMask non détecté !");
         return;
       }
-      const web3 = new Web3(window.ethereum);
       try {
-        await window.ethereum.enable();
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const web3 = new Web3(window.ethereum);
         const accounts = await web3.eth.getAccounts();
         const current = accounts[0];
         const last = localStorage.getItem("lastAccount");
+
         if (last && last !== current) {
           setExpediteur(last);
           setDestinataire(current);
@@ -34,29 +34,35 @@ function Smart() {
           setDestinataire(null);
         }
         localStorage.setItem("lastAccount", current);
-        console.log("Comptes chargés :", { expediteur: last || current, destinataire: accounts[1] || current });
+
+        console.log("Comptes chargés :", {
+          expediteur: last || current,
+          destinataire: accounts[1] || null,
+        });
       } catch (err) {
-        console.error("Erreur de connexion à MetaMask :", err);
+        alert("Erreur de connexion à MetaMask : " + err.message);
+        console.error(err);
       }
     };
     loadAccounts();
   }, []);
 
   const transfereArgent = async () => {
+    console.log("Tentative de transfert avec", { expediteur, destinataire, montant });
+
     if (!expediteur || !destinataire) {
-      console.error("Comptes non prêts", { expediteur, destinataire });
+      alert("Les comptes expéditeur ou destinataire ne sont pas prêts.");
       return;
     }
     if (!montant || isNaN(montant)) {
-      console.error("Montant invalide :", montant);
+      alert("Montant invalide.");
       return;
     }
 
     const web3 = new Web3(window.ethereum);
 
-    // Validation des adresses
     if (!web3.utils.isAddress(expediteur) || !web3.utils.isAddress(destinataire)) {
-      console.error("Adresse invalide", { expediteur, destinataire });
+      alert("Adresse expéditeur ou destinataire invalide.");
       return;
     }
 
@@ -64,67 +70,131 @@ function Smart() {
     console.log("Montant en Wei :", amountInWei);
 
     try {
-      // 1️⃣ Essai appel contrat
       const contract = await getContract();
-      if (contract) {
-        console.log("Test estimation de gas pour transfer()…");
-        const estGas = await contract.methods
-          .transfer(destinataire)
-          .estimateGas({ from: expediteur, value: amountInWei });
-        console.log("Gas estimé :", estGas);
+      if (!contract) throw new Error("Contrat non chargé");
 
-        console.log("Exécution de contract.methods.transfer…");
-        const receipt = await contract.methods
-          .transfer(destinataire)
-          .send({ from: expediteur, value: amountInWei, gas: estGas });
-        console.log("Receipt from contract transfer :", receipt);
-        return;
-      }
-      throw new Error("Impossible de récupérer le contrat");
+      console.log("Estimation du gas pour transfer()");
+      const estimatedGas = await contract.methods
+        .transfer(destinataire)
+        .estimateGas({ from: expediteur, value: amountInWei });
+
+      console.log("Gas estimé :", estimatedGas);
+
+      const receipt = await contract.methods
+        .transfer(destinataire)
+        .send({ from: expediteur, value: amountInWei, gas: estimatedGas });
+
+      alert("Transfert via contrat réussi !");
+      console.log("Receipt contrat :", receipt);
+      setShowModal(false);
+      return;
     } catch (err) {
       console.warn("Échec du transfert via contrat :", err);
 
-      // 2️⃣ Fallback : simple transfert ETH
+      // Fallback : simple transfert ETH
       try {
-        console.log("Fallback > web3.eth.sendTransaction…");
         const tx = await web3.eth.sendTransaction({
           from: expediteur,
           to: destinataire,
           value: amountInWei,
         });
-        console.log("Receipt from sendTransaction :", tx);
-      } catch (err2) {
-        console.error("Erreur sendTransaction fallback :", err2);
+        alert("Transfert ETH direct réussi !");
+        console.log("Receipt sendTransaction :", tx);
+        setShowModal(false);
+      } catch (fallbackErr) {
+        alert("Erreur lors du transfert ETH direct : " + fallbackErr.message);
+        console.error("Erreur sendTransaction fallback :", fallbackErr);
       }
     }
   };
 
-  // Fonction pour afficher ou masquer le modal
   const toggleModal = () => setShowModal(!showModal);
 
   return (
     <div>
       <h2>Transfert de fonds</h2>
-      <p>Expéditeur : {expediteur}</p>
-      <p>Destinataire : {destinataire}</p>
-      <p>Montant : {montant} ETH</p>
-      <button onClick={toggleModal}>Effectuer la transaction</button>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Confirmer la transaction</h3>
-            <p>
-              Voulez-vous vraiment envoyer {montant} ETH à {destinataire} ?
+      <p>Expéditeur : {expediteur || "Non connecté"}</p>
+      <p>Destinataire : {destinataire || "Non disponible"}</p>
+      <p>Montant : {montant || "N/A"} ETH</p>
+      <button onClick={toggleModal} disabled={!expediteur || !destinataire || !montant}>
+        Effectuer la transaction
+      </button>
+{showModal && (
+        <div style={modalOverlayStyle}>
+          <div style={modalCardStyle}>
+            <h2 style={{ marginBottom: "20px", fontSize: "22px", color: "#333" }}>
+              Confirmer la transaction
+            </h2>
+            <p style={{ marginBottom: "30px", fontSize: "16px", color: "#555" }}>
+              Voulez-vous vraiment envoyer <strong>{montant} ETH</strong> à :
+              <br />
+              <span style={{ color: "#007bff", fontFamily: "monospace" }}>
+                {destinataire?.slice(0, 6)}...{destinataire?.slice(-4)}
+              </span> ?
             </p>
-            <button onClick={transfereArgent}>Confirmer</button>
-            <button onClick={toggleModal}>Annuler</button>
+            <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
+              <button style={confirmBtnStyle} onClick={transfereArgent}>
+                ✅ Confirmer
+              </button>
+              <button style={cancelBtnStyle} onClick={toggleModal}>
+                ❌ Annuler
+              </button>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
+// Styles inline simples pour le modal
+const modalOverlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+  backdropFilter: "blur(4px)",
+};
+
+const modalCardStyle = {
+  backgroundColor: "#fff",
+  padding: "32px",
+  borderRadius: "14px",
+  width: "420px",
+  maxWidth: "90%",
+  textAlign: "center",
+  boxShadow: "0 12px 30px rgba(0, 0, 0, 0.2)",
+  fontFamily: "'Segoe UI', sans-serif",
+  animation: "scaleIn 0.3s ease",
+};
+
+const baseBtnStyle = {
+  padding: "12px 24px",
+  borderRadius: "8px",
+  border: "none",
+  fontWeight: "600",
+  fontSize: "16px",
+  cursor: "pointer",
+  transition: "background-color 0.2s ease",
+};
+
+const confirmBtnStyle = {
+  ...baseBtnStyle,
+  backgroundColor: "#198754",
+  color: "#fff",
+};
+
+const cancelBtnStyle = {
+  ...baseBtnStyle,
+  backgroundColor: "#dc3545",
+  color: "#fff",
+};
 
 export default Smart;
+
+
